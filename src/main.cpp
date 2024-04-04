@@ -16,7 +16,7 @@
 #define SONAR_TRG A3
 #define SONAR_ECHO 4
 #define SONAR_MAX_WAIT_TIME 7000  // 15000 ms to match the max distance of the sensor, it should be as little as possible to not use up all the processing time.
-#define ATTACK_DISTANCE_LIMIT 30  // sonar limit in cm
+#define ATTACK_DISTANCE_LIMIT 60  // sonar limit in cm
 
 #define SPEED 0x8F
 
@@ -144,7 +144,7 @@ void detectFoe() {
   float distance = ping();  // distance in centimeters
 
   // Calculate velocity as change in distance over time
-  if (distance != 0 && prevDistance != 0 && pings <= 5) {
+  if (distance != 0 && prevDistance != 0 && pings <= 4) {
     pings++;
   }
   else {
@@ -162,7 +162,7 @@ void detectFoe() {
   Serial.println(" cm/s");
 
   // if distance is smaller than a certain value, a foe is detected
-  if (pings >= 5 && distance <= ATTACK_DISTANCE_LIMIT) {    
+  if (pings >= 4 && distance <= ATTACK_DISTANCE_LIMIT) {    
     Serial.println("Foe detected...");
     if (velocity < -20.0) {
       defend(); // if the foe is coming at us at a certain speed, defend
